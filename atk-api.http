@@ -1,0 +1,6 @@
+@atk_api_HostAddress = http://localhost:5051
+
+GET {{atk_api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

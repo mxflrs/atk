@@ -1,0 +1,38 @@
+# Standard .NET ignores
+**/bin/
+**/obj/
+*.user
+*.suo
+*.cache
+*.vs/
+.vscode/
+*.swp
+
+# Secrets
+appsettings.Development.json
+appsettings.Local.json
+**/secrets.json
+**/*.env
+**/.env.local
+
+# EF Core migrations (optional - only ignore if migrations contain sensitive data)
+# **/Migrations/
+
+# IDE specific
+.idea/
+*.rsuser
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+*.pdb
+
+# NuGet
+**/packages/
+*.nupkg
+.nuget/
+
+# Local development files
+launchSettings.json
+appsettings.json
+appsettings.private.json
