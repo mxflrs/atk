@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using atk_api.Application.Interfaces;
+
 namespace atk_api.Domain.Entities;
 
-public abstract class BaseEntity
+public abstract class BaseEntity: IEntity
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     
     [StringLength(200)]
     public required string Title { get; set; }

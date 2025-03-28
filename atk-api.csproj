@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="14.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.13" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
@@ -23,15 +24,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Interfaces\" />
-      <Folder Include="Application\Mappings\" />
-      <Folder Include="Application\Models\" />
-      <Folder Include="Application\Services\" />
-      <Folder Include="Application\Validators\" />
-      <Folder Include="Domain\Enums\" />
-      <Folder Include="Domain\Exceptions\" />
-      <Folder Include="Infrastructure\Email\" />
-      <Folder Include="Presentation\Controllers\" />
       <Folder Include="Presentation\Properties\" />
     </ItemGroup>
 
