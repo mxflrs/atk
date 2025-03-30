@@ -23,4 +23,11 @@ public class StyleController
         var styles = await _service.GetAllAsync();
         return styles;
     }
+
+    [HttpGet("{id}")]
+    public async Task<StyleDto?> GetByIdAsync(Guid id)
+    {
+        var style = await _service.GetByIdAsync(id);
+        return style;
+    }
 }
