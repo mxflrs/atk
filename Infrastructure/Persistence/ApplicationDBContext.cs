@@ -11,7 +11,6 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Ignore<BaseEntity>();
         base.OnModelCreating(modelBuilder);
 
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
@@ -20,10 +19,12 @@ public class ApplicationDbContext : DbContext
             {
                 modelBuilder.Entity(entityType.ClrType)
                     .Property(nameof(BaseEntity.CreatedAt))
-                    .HasDefaultValueSql("NOW()");
+                    .HasDefaultValueSql("NOW()")
+                    .ValueGeneratedOnAdd();
+
                 modelBuilder.Entity(entityType.ClrType)
                     .Property(nameof(BaseEntity.ModifiedAt))
-                    .HasDefaultValueSql("NOW()");
+                    .IsRequired(false);
             }
         }
     }
@@ -34,13 +35,14 @@ public class ApplicationDbContext : DbContext
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedAt = DateTime.UtcNow;
-                entry.Entity.ModifiedAt = DateTime.UtcNow;
+                entry.Property(x => x.CreatedAt).IsModified = false;
+                entry.Entity.ModifiedAt = null;
             }
 
             if (entry.State == EntityState.Modified)
             {
                 entry.Entity.ModifiedAt = DateTime.UtcNow;
+                entry.Property(x => x.CreatedAt).IsModified = false;
             }
         }
         

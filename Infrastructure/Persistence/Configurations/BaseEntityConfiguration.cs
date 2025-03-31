@@ -14,16 +14,15 @@ where T : BaseEntity
         builder.Property(e => e.Title)
             .IsRequired()
             .HasMaxLength(50);
-        
+
         builder.Property(e => e.ModifiedAt)
             .HasColumnType("timestamp without time zone")
-            .HasDefaultValueSql("now()")
-            .ValueGeneratedOnAdd();
+            .IsRequired(false);
 
         builder.Property(e => e.CreatedAt)
             .HasColumnType("timestamp without time zone")
             .HasDefaultValueSql("now()")
-            .ValueGeneratedOnAddOrUpdate();
+            .ValueGeneratedOnAdd();
 
         builder.Property(e => e.Id)
             .UseIdentityAlwaysColumn();

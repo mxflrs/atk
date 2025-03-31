@@ -1,8 +1,7 @@
 namespace atk_api.Application.Dtos;
 
-public record CreateStyleDto
+public record UpsertStyleDto
 (
     string Title,
-    DateTime CreatedAt,
     string Icon
 );

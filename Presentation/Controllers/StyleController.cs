@@ -8,20 +8,24 @@ namespace atk_api.Presentation.Controllers;
 [Route("api/v1/styles")]
 public class StyleController : ControllerBase
 {
-    private readonly IStyleService _service;
+    private readonly IBaseService<StyleDto, UpsertStyleDto> _service;
 
-    public StyleController(IStyleService service)
+    public StyleController(IBaseService<StyleDto, UpsertStyleDto> service)
     {
         _service = service;
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IEnumerable<StyleDto>> GetAll()
     {
         return await _service.GetAllAsync();
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<StyleDto?> GetById(Guid id)
     {
         return await _service.GetByIdAsync(id);
@@ -30,7 +34,7 @@ public class StyleController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(StyleDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<StyleDto>> Create(CreateStyleDto dto)
+    public async Task<ActionResult<StyleDto>> Create(UpsertStyleDto dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -42,9 +46,18 @@ public class StyleController : ControllerBase
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<StyleDto>> Update(Guid id, UpdateStyleDto dto)
+    public async Task<ActionResult<StyleDto>> Update(Guid id, UpsertStyleDto dto)
     {
         var result = await _service.UpdateAsync(id, dto);
         return CreatedAtAction(nameof(GetById), new { id }, result);
+    }
+    
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Delete(Guid id)
+    {
+        await _service.DeleteAsync(id);
+        return NoContent();
     }
 }
