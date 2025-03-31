@@ -1,3 +1,4 @@
+using atk_api.Application.Common.Exceptions;
 using atk_api.Application.Dtos;
 using atk_api.Application.Interfaces;
 using atk_api.Domain.Entities;
@@ -38,5 +39,18 @@ public class StyleService: IStyleService
         await _context.Styles.AddAsync(style);
         await _context.SaveChangesAsync();
         return _mapper.Map<StyleDto>(style);
+    }
+
+    public async Task<Guid?> UpdateAsync(Guid id, UpdateStyleDto dto)
+    {
+        var existingStyle = await _context.Styles.FindAsync(id);
+
+        if (existingStyle == null)
+        {
+            throw new NotFoundException(nameof(Style), id);
+        }
+        _mapper.Map(dto, existingStyle);
+        await _context.SaveChangesAsync();
+        return id;
     }
 }

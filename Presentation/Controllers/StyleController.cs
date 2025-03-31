@@ -38,4 +38,13 @@ public class StyleController : ControllerBase
         var result = await _service.CreateAsync(dto);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<StyleDto>> Update(Guid id, UpdateStyleDto dto)
+    {
+        var result = await _service.UpdateAsync(id, dto);
+        return CreatedAtAction(nameof(GetById), new { id }, result);
+    }
 }
