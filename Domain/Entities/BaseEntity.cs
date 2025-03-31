@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using atk_api.Application.Interfaces;
+using atk_api.Domain.Interfaces;
 
 namespace atk_api.Domain.Entities;
 

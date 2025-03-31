@@ -1,9 +1,7 @@
 using atk_api.Application.Dtos;
 using atk_api.Application.Interfaces;
 using atk_api.Application.Services;
-using atk_api.Domain.Interfaces;
 using atk_api.Infrastructure.Persistence;
-using atk_api.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +19,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddScoped<IRepository<StyleDto>, StyleRepository>();
 builder.Services.AddScoped<IStyleService, StyleService>();
+//
+// builder.Services.AddSwaggerGen(c => 
+// {
+//     c.TagActionsBy(api => [api.ActionDescriptor.RouteValues["action"]]);
+// });
 
 var app = builder.Build();
 

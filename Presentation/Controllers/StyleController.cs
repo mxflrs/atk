@@ -1,14 +1,12 @@
 using atk_api.Application.Dtos;
 using atk_api.Application.Interfaces;
-using atk_api.Domain.Entities;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace atk_api.Presentation.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
-public class StyleController
+[Route("api/v1/styles")]
+public class StyleController : ControllerBase
 {
     private readonly IStyleService _service;
 
@@ -18,16 +16,26 @@ public class StyleController
     }
 
     [HttpGet]
-    public async Task<IEnumerable<StyleDto>> GetStylesAsync()
+    public async Task<IEnumerable<StyleDto>> GetAll()
     {
-        var styles = await _service.GetAllAsync();
-        return styles;
+        return await _service.GetAllAsync();
     }
 
     [HttpGet("{id}")]
-    public async Task<StyleDto?> GetByIdAsync(Guid id)
+    public async Task<StyleDto?> GetById(Guid id)
     {
-        var style = await _service.GetByIdAsync(id);
-        return style;
+        return await _service.GetByIdAsync(id);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(typeof(StyleDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<StyleDto>> Create(CreateStyleDto dto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _service.CreateAsync(dto);
+        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 }

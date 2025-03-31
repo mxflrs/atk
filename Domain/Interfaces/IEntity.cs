@@ -1,4 +1,4 @@
-namespace atk_api.Application.Interfaces;
+namespace atk_api.Domain.Interfaces;
 
 public interface IEntity
 {
