@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using atk_api.Application.Common.Exceptions;
 using atk_api.Application.Dtos;
 using atk_api.Application.Interfaces;
@@ -33,6 +34,13 @@ public class StyleService: IBaseService<StyleDto, UpsertStyleDto>
     
     public async Task<StyleDto> CreateAsync(UpsertStyleDto dto)
     {
+        bool nameExists = await _context.Styles.AnyAsync(x => x.Title.Equals(dto.Title, StringComparison.CurrentCultureIgnoreCase));
+
+        if (nameExists)
+        {
+            throw new ValidationException("Title already exists");
+        }
+        
         var style = _mapper.Map<Style>(dto);
         await _context.Styles.AddAsync(style);
         await _context.SaveChangesAsync();
@@ -41,11 +49,17 @@ public class StyleService: IBaseService<StyleDto, UpsertStyleDto>
 
     public async Task<StyleDto> UpdateAsync(Guid id, UpsertStyleDto dto)
     {
+
         var existingStyle = await _context.Styles.FindAsync(id);
 
         if (existingStyle == null)
         {
             throw new NotFoundException(nameof(Style), id);
+        }
+
+        if (existingStyle.Title == dto.Title)
+        {
+            throw new ValidationException("Title already exists");
         }
         _mapper.Map(dto, existingStyle);
         await _context.SaveChangesAsync();
