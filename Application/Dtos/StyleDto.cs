@@ -5,5 +5,5 @@ public record StyleDto
   Guid Id,
   string Title,
   DateTime CreatedAt,
-  string Icon
+  int Position
 );
