@@ -5,5 +5,6 @@ public record StyleDto
   Guid Id,
   string Title,
   DateTime CreatedAt,
+  DateTime? ModifiedAt,
   int Position
 );

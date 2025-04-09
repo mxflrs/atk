@@ -9,6 +9,7 @@ public class ApplicationDbContext : DbContext
     
     public DbSet<Style> Styles { get; set; }
     public DbSet<Medium> Mediums { get; set; }
+    public DbSet<Series> Series { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

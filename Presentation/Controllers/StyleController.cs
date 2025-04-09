@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace atk_api.Presentation.Controllers;
 
 [ApiController]
-[Route("api/v1/styles")]
+[Route("api/styles")]
 public class StyleController : ControllerBase
 {
     private readonly IBaseService<StyleDto, UpsertStyleDto> _service;

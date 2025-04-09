@@ -18,6 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IBaseService<StyleDto, UpsertStyleDto>, StyleService>();
 builder.Services.AddScoped<IBaseService<MediumDto, UpsertMediumDto>, MediumService>();
+builder.Services.AddScoped<IBaseService<SeriesDto, UpsertSeriesDto>, SeriesService>();
 
 // builder.Services.AddSwaggerGen(c => 
 // {
