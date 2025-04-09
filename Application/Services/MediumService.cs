@@ -29,6 +29,12 @@ public class MediumService : IBaseService<MediumDto, UpsertMediumDto>
     public async Task<MediumDto?> GetByIdAsync(Guid id)
     {
         var medium = await _context.Mediums.FirstOrDefaultAsync(m => m.Id == id);
+        
+        if (medium == null)
+        {
+            throw new ValidationException($"Medium with id: {id} not found");
+        }
+        
         return _mapper.Map<MediumDto>(medium);
     }
 

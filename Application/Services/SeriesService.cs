@@ -28,6 +28,12 @@ public class SeriesService : IBaseService<SeriesDto, UpsertSeriesDto>
     public async Task<SeriesDto?> GetByIdAsync(Guid id)
     {
         var series = await _context.Series.FindAsync(id);
+        
+        if (series == null)
+        {
+            throw new ValidationException($"Material with id: {id} not found");
+        }
+        
         return _mapper.Map<SeriesDto>(series);
     }
 

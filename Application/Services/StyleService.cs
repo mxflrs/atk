@@ -29,6 +29,12 @@ public class StyleService: IBaseService<StyleDto, UpsertStyleDto>
     public async Task<StyleDto?> GetByIdAsync(Guid id)
     {
         var style = await _context.Styles.FirstOrDefaultAsync(s => s.Id == id);
+        
+        if (style == null)
+        {
+            throw new ValidationException($"Material with id: {id} not found");
+        }
+        
         return _mapper.Map<StyleDto>(style);
     }
     
