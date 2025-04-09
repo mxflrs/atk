@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace atk_api.Presentation.Controllers;
 
 [ApiController]
-[Route("api/v1/styles")]
-public class StyleController : ControllerBase
+[Route("api/v1/medium")]
+public class MediumController : ControllerBase
 {
-    private readonly IBaseService<StyleDto, UpsertStyleDto> _service;
+    private readonly IBaseService<MediumDto, UpsertMediumDto> _service;
 
-    public StyleController(IBaseService<StyleDto, UpsertStyleDto> service)
+    public MediumController(IBaseService<MediumDto, UpsertMediumDto> service)
     {
         _service = service;
     }
@@ -18,26 +18,28 @@ public class StyleController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IEnumerable<StyleDto>> GetAll()
+    public async Task<IEnumerable<MediumDto>> GetAll()
     {
         return await _service.GetAllAsync();
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<StyleDto?> GetById(Guid id)
+    public async Task<MediumDto?> GetById(Guid id)
     {
         return await _service.GetByIdAsync(id);
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(StyleDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(MediumDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<StyleDto>> Create(UpsertStyleDto dto)
+    public async Task<ActionResult<MediumDto>> Create(UpsertMediumDto dto)
     {
         if (!ModelState.IsValid)
+        {
             return BadRequest(ModelState);
+        }
 
         var result = await _service.CreateAsync(dto);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
@@ -46,15 +48,13 @@ public class StyleController : ControllerBase
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<StyleDto>> Update(Guid id, UpsertStyleDto dto)
+    public async Task<ActionResult<StyleDto>> Update(Guid id, UpsertMediumDto dto)
     {
         var result = await _service.UpdateAsync(id, dto);
         return CreatedAtAction(nameof(Update), new { id }, result);
     }
-    
+
     [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> Delete(Guid id)
     {
         await _service.DeleteAsync(id);

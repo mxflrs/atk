@@ -8,6 +8,7 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     
     public DbSet<Style> Styles { get; set; }
+    public DbSet<Medium> Mediums { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

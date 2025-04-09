@@ -34,7 +34,7 @@ public class StyleService: IBaseService<StyleDto, UpsertStyleDto>
     
     public async Task<StyleDto> CreateAsync(UpsertStyleDto dto)
     {
-        bool nameExists = await _context.Styles.AnyAsync(x => x.Title.Equals(dto.Title, StringComparison.CurrentCultureIgnoreCase));
+        bool nameExists = await _context.Styles.AnyAsync(x => x.Title.ToLower() == dto.Title.ToLower());
 
         if (nameExists)
         {
@@ -57,7 +57,7 @@ public class StyleService: IBaseService<StyleDto, UpsertStyleDto>
             throw new NotFoundException(nameof(Style), id);
         }
 
-        if (existingStyle.Title == dto.Title)
+        if (existingStyle.Title.ToLower() == dto.Title.ToLower())
         {
             throw new ValidationException("Title already exists");
         }
