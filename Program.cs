@@ -22,6 +22,7 @@ builder.Services.AddScoped<IBaseService<StyleDto, UpsertStyleRequest>, StyleServ
 builder.Services.AddScoped<IBaseService<MediumDto, UpsertMediumRequest>, MediumService>();
 builder.Services.AddScoped<IBaseService<SeriesDto, UpsertSeriesRequest>, SeriesService>();
 builder.Services.AddScoped<IBaseService<MaterialDto, UpsertMaterialRequest>, MaterialService>();
+builder.Services.AddScoped<IBaseService<LaborTypeDto, UpsertLaborTypeRequest>, LaborTypeService>();
 
 // builder.Services.AddSwaggerGen(c => 
 // {
