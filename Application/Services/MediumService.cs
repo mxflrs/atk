@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using atk_api.Application.Common.Exceptions;
 using atk_api.Application.Dtos;
+using atk_api.Application.Dtos.Requests;
+using atk_api.Application.Dtos.Responses;
 using atk_api.Application.Interfaces;
 using atk_api.Domain.Entities;
 using atk_api.Infrastructure.Persistence;

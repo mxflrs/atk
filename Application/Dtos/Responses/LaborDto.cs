@@ -1,6 +1,4 @@
-using atk_api.Domain.Entities;
-
-namespace atk_api.Application.Dtos;
+namespace atk_api.Application.Dtos.Responses;
 
 public record LaborDto(
     Guid Id,

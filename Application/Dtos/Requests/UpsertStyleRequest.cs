@@ -1,4 +1,4 @@
-namespace atk_api.Application.Dtos;
+namespace atk_api.Application.Dtos.Requests;
 
 public record UpsertStyleRequest
 (

@@ -1,4 +1,6 @@
 using atk_api.Application.Dtos;
+using atk_api.Application.Dtos.Requests;
+using atk_api.Application.Dtos.Responses;
 using atk_api.Domain.Entities;
 using AutoMapper;
 
