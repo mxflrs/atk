@@ -1,4 +1,4 @@
 namespace atk_api.Application.Dtos;
 
-public record UpsertMaterialDto
+public record UpsertMaterialRequest
 (string Title);

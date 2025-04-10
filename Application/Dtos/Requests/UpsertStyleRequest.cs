@@ -1,6 +1,6 @@
 namespace atk_api.Application.Dtos;
 
-public record UpsertStyleDto
+public record UpsertStyleRequest
 (
     string Title,
     int Position

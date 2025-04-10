@@ -11,10 +11,17 @@ public class ApplicationDbContext : DbContext
     public DbSet<Medium> Mediums { get; set; }
     public DbSet<Series> Series { get; set; }
     public DbSet<Material> Materials { get; set; }
+    public DbSet<Labor> Labors { get; set; }
+    public DbSet<LaborType> LaborTypes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Labor>()
+            .HasOne(l => l.Type)
+            .WithMany(t => t.Labors)
+            .HasForeignKey(l => l.TypeId);
 
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {

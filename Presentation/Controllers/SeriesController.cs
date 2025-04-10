@@ -8,9 +8,9 @@ namespace atk_api.Presentation.Controllers;
 [Route("api/series")]
 public class SeriesController : ControllerBase
 {
-    private readonly IBaseService<SeriesDto, UpsertSeriesDto> _service;
+    private readonly IBaseService<SeriesDto, UpsertSeriesRequest> _service;
 
-    public SeriesController(IBaseService<SeriesDto, UpsertSeriesDto> service)
+    public SeriesController(IBaseService<SeriesDto, UpsertSeriesRequest> service)
     {
         _service = service;
     }
@@ -34,20 +34,20 @@ public class SeriesController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(SeriesDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<SeriesDto>> Create(UpsertSeriesDto dto)
+    public async Task<ActionResult<SeriesDto>> Create(UpsertSeriesRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        var result = await _service.CreateAsync(dto);
+        var result = await _service.CreateAsync(request);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(SeriesDto), StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<SeriesDto>> Update(Guid id, UpsertSeriesDto dto)
+    public async Task<ActionResult<SeriesDto>> Update(Guid id, UpsertSeriesRequest request)
     {
-        var result = await _service.UpdateAsync(id, dto);
+        var result = await _service.UpdateAsync(id, request);
         return CreatedAtAction(nameof(Update), new { id = result.Id }, result);
     }
 

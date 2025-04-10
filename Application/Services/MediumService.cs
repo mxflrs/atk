@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace atk_api.Application.Services;
 
-public class MediumService : IBaseService<MediumDto, UpsertMediumDto>
+public class MediumService : IBaseService<MediumDto, UpsertMediumRequest>
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -38,22 +38,22 @@ public class MediumService : IBaseService<MediumDto, UpsertMediumDto>
         return _mapper.Map<MediumDto>(medium);
     }
 
-    public async Task<MediumDto> CreateAsync(UpsertMediumDto dto)
+    public async Task<MediumDto> CreateAsync(UpsertMediumRequest request)
     {
-        bool nameExists = await _context.Mediums.AnyAsync(x => x.Title.ToLower() == dto.Title.ToLower());
+        bool nameExists = await _context.Mediums.AnyAsync(x => x.Title.ToLower() == request.Title.ToLower());
 
         if (nameExists)
         {
             throw new ValidationException("Title already exists");
         }
         
-        var medium = _mapper.Map<Medium>(dto);
+        var medium = _mapper.Map<Medium>(request);
         await _context.Mediums.AddAsync(medium);
         await _context.SaveChangesAsync();
         return _mapper.Map<MediumDto>(medium);
     }
 
-    public async Task<MediumDto> UpdateAsync(Guid id, UpsertMediumDto dto)
+    public async Task<MediumDto> UpdateAsync(Guid id, UpsertMediumRequest request)
     {
         var existingMedium = await _context.Mediums.FirstOrDefaultAsync(m => m.Id == id);
 
@@ -62,12 +62,12 @@ public class MediumService : IBaseService<MediumDto, UpsertMediumDto>
             throw new NotFoundException(nameof(Medium), id);
         }
 
-        if (existingMedium.Title.ToLower() == dto.Title.ToLower())
+        if (existingMedium.Title.ToLower() == request.Title.ToLower())
         {
             throw new ValidationException("Title already exists");
         }
         
-        _mapper.Map(dto, existingMedium);
+        _mapper.Map(request, existingMedium);
         await _context.SaveChangesAsync();
         return _mapper.Map<MediumDto>(existingMedium);
     }

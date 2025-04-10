@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace atk_api.Application.Services;
 
-public class MaterialService : IBaseService<MaterialDto, UpsertMaterialDto>
+public class MaterialService : IBaseService<MaterialDto, UpsertMaterialRequest>
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -37,25 +37,25 @@ public class MaterialService : IBaseService<MaterialDto, UpsertMaterialDto>
         return _mapper.Map<MaterialDto>(result);
     }
 
-    public async Task<MaterialDto> CreateAsync(UpsertMaterialDto dto)
+    public async Task<MaterialDto> CreateAsync(UpsertMaterialRequest request)
     {
-        bool nameExists = await _context.Materials.AnyAsync(x => x.Title.ToLower() == dto.Title.ToLower());
+        bool nameExists = await _context.Materials.AnyAsync(x => x.Title.ToLower() == request.Title.ToLower());
 
         if (nameExists)
         {
             throw new ValidationException("Title already exists");
         }
         
-        var material = _mapper.Map<Material>(dto);
+        var material = _mapper.Map<Material>(request);
         await _context.Materials.AddAsync(material);
         await _context.SaveChangesAsync();
         return _mapper.Map<MaterialDto>(material);
     }
 
-    public async Task<MaterialDto> UpdateAsync(Guid id, UpsertMaterialDto dto)
+    public async Task<MaterialDto> UpdateAsync(Guid id, UpsertMaterialRequest request)
     {
         var material = await _context.Materials.FirstOrDefaultAsync(x => x.Id == id);
-        bool nameExists = await _context.Materials.AnyAsync(x => x.Title.ToLower() == dto.Title.ToLower() && x.Id != id);
+        bool nameExists = await _context.Materials.AnyAsync(x => x.Title.ToLower() == request.Title.ToLower() && x.Id != id);
 
         if (material == null)
         {
@@ -67,7 +67,7 @@ public class MaterialService : IBaseService<MaterialDto, UpsertMaterialDto>
             throw new ValidationException("Title already exists");
         }
         
-        _mapper.Map(dto, material);
+        _mapper.Map(request, material);
         await _context.SaveChangesAsync();
         return _mapper.Map<MaterialDto>(material);
     }

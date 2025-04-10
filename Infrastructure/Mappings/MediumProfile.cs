@@ -9,6 +9,6 @@ public class MediumProfile: Profile
     public MediumProfile()
     {
         CreateMap<Medium, MediumDto>().ReverseMap();
-        CreateMap<Medium, UpsertMediumDto>().ReverseMap();
+        CreateMap<Medium, UpsertMediumRequest>().ReverseMap();
     }
 }

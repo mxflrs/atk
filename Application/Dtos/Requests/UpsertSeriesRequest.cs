@@ -1,5 +1,5 @@
 namespace atk_api.Application.Dtos;
 
-public record UpsertSeriesDto
+public record UpsertSeriesRequest
 (
     string Title);

@@ -8,9 +8,9 @@ namespace atk_api.Presentation.Controllers;
 [Route("api/styles")]
 public class StyleController : ControllerBase
 {
-    private readonly IBaseService<StyleDto, UpsertStyleDto> _service;
+    private readonly IBaseService<StyleDto, UpsertStyleRequest> _service;
 
-    public StyleController(IBaseService<StyleDto, UpsertStyleDto> service)
+    public StyleController(IBaseService<StyleDto, UpsertStyleRequest> service)
     {
         _service = service;
     }
@@ -34,21 +34,21 @@ public class StyleController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(StyleDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<StyleDto>> Create(UpsertStyleDto dto)
+    public async Task<ActionResult<StyleDto>> Create(UpsertStyleRequest request)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await _service.CreateAsync(dto);
+        var result = await _service.CreateAsync(request);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<StyleDto>> Update(Guid id, UpsertStyleDto dto)
+    public async Task<ActionResult<StyleDto>> Update(Guid id, UpsertStyleRequest request)
     {
-        var result = await _service.UpdateAsync(id, dto);
+        var result = await _service.UpdateAsync(id, request);
         return CreatedAtAction(nameof(Update), new { id }, result);
     }
     

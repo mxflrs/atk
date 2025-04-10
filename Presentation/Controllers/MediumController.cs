@@ -8,9 +8,9 @@ namespace atk_api.Presentation.Controllers;
 [Route("api/mediums")]
 public class MediumController : ControllerBase
 {
-    private readonly IBaseService<MediumDto, UpsertMediumDto> _service;
+    private readonly IBaseService<MediumDto, UpsertMediumRequest> _service;
 
-    public MediumController(IBaseService<MediumDto, UpsertMediumDto> service)
+    public MediumController(IBaseService<MediumDto, UpsertMediumRequest> service)
     {
         _service = service;
     }
@@ -34,23 +34,23 @@ public class MediumController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(MediumDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<MediumDto>> Create(UpsertMediumDto dto)
+    public async Task<ActionResult<MediumDto>> Create(UpsertMediumRequest request)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var result = await _service.CreateAsync(dto);
+        var result = await _service.CreateAsync(request);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<StyleDto>> Update(Guid id, UpsertMediumDto dto)
+    public async Task<ActionResult<StyleDto>> Update(Guid id, UpsertMediumRequest request)
     {
-        var result = await _service.UpdateAsync(id, dto);
+        var result = await _service.UpdateAsync(id, request);
         return CreatedAtAction(nameof(Update), new { id }, result);
     }
 

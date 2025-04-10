@@ -1,5 +1,5 @@
 namespace atk_api.Application.Dtos;
 
-public record UpsertMediumDto(
+public record UpsertMediumRequest(
     string Title
 );

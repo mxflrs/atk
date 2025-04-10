@@ -9,6 +9,6 @@ public class StyleProfile: Profile
     public StyleProfile()
     {
         CreateMap<Style, StyleDto>().ReverseMap();
-        CreateMap<Style, UpsertStyleDto>().ReverseMap();
+        CreateMap<Style, UpsertStyleRequest>().ReverseMap();
     }
 }

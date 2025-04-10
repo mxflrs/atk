@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace atk_api.Application.Services;
 
-public class SeriesService : IBaseService<SeriesDto, UpsertSeriesDto>
+public class SeriesService : IBaseService<SeriesDto, UpsertSeriesRequest>
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -37,25 +37,25 @@ public class SeriesService : IBaseService<SeriesDto, UpsertSeriesDto>
         return _mapper.Map<SeriesDto>(series);
     }
 
-    public async Task<SeriesDto> CreateAsync(UpsertSeriesDto dto)
+    public async Task<SeriesDto> CreateAsync(UpsertSeriesRequest request)
     {
-        bool nameExists = await _context.Series.AnyAsync(x => x.Title.ToLower() == dto.Title.ToLower());
+        bool nameExists = await _context.Series.AnyAsync(x => x.Title.ToLower() == request.Title.ToLower());
 
         if (nameExists)
         {
             throw new ValidationException("Title already exists");
         }
         
-        var series = _mapper.Map<Series>(dto);
+        var series = _mapper.Map<Series>(request);
         await _context.Series.AddAsync(series);
         await _context.SaveChangesAsync();
         return _mapper.Map<SeriesDto>(series);
     }
 
-    public async Task<SeriesDto> UpdateAsync(Guid id, UpsertSeriesDto dto)
+    public async Task<SeriesDto> UpdateAsync(Guid id, UpsertSeriesRequest request)
     {
         var series = await _context.Series.FindAsync(id);
-        bool nameExists = await _context.Series.AnyAsync(x => x.Title.ToLower() == dto.Title.ToLower() && x.Id != id);
+        bool nameExists = await _context.Series.AnyAsync(x => x.Title.ToLower() == request.Title.ToLower() && x.Id != id);
 
         if (series == null)
         {
@@ -67,7 +67,7 @@ public class SeriesService : IBaseService<SeriesDto, UpsertSeriesDto>
             throw new ValidationException("Title already exists");
         }
         
-        _mapper.Map(dto, series);
+        _mapper.Map(request, series);
         await _context.SaveChangesAsync();
         return _mapper.Map<SeriesDto>(series);
     }

@@ -8,9 +8,9 @@ namespace atk_api.Presentation.Controllers;
 [Route("api/materials")]
 public class MaterialController : ControllerBase
 {
-    private readonly IBaseService<MaterialDto, UpsertMaterialDto> _service;
+    private readonly IBaseService<MaterialDto, UpsertMaterialRequest> _service;
 
-    public MaterialController(IBaseService<MaterialDto, UpsertMaterialDto> service)
+    public MaterialController(IBaseService<MaterialDto, UpsertMaterialRequest> service)
     {
         _service = service;
     }
@@ -34,23 +34,23 @@ public class MaterialController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<MaterialDto>> Create(UpsertMaterialDto dto)
+    public async Task<ActionResult<MaterialDto>> Create(UpsertMaterialRequest request)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var result =  await _service.CreateAsync(dto);
+        var result =  await _service.CreateAsync(request);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<MaterialDto>> Update(Guid id, UpsertMaterialDto dto)
+    public async Task<ActionResult<MaterialDto>> Update(Guid id, UpsertMaterialRequest request)
     {
-        var result = await _service.UpdateAsync(id, dto);
+        var result = await _service.UpdateAsync(id, request);
         return CreatedAtAction(nameof(Update), new { id = result.Id }, result);
     }
 

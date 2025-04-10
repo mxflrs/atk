@@ -9,6 +9,6 @@ public class SeriesProfile: Profile
     public SeriesProfile()
     {
         CreateMap<Series, SeriesDto>().ReverseMap();
-        CreateMap<UpsertSeriesDto, Series>().ReverseMap();
+        CreateMap<UpsertSeriesRequest, Series>().ReverseMap();
     }
 }

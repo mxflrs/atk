@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace atk_api.Application.Services;
 
-public class StyleService: IBaseService<StyleDto, UpsertStyleDto>
+public class StyleService: IBaseService<StyleDto, UpsertStyleRequest>
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -38,22 +38,22 @@ public class StyleService: IBaseService<StyleDto, UpsertStyleDto>
         return _mapper.Map<StyleDto>(style);
     }
     
-    public async Task<StyleDto> CreateAsync(UpsertStyleDto dto)
+    public async Task<StyleDto> CreateAsync(UpsertStyleRequest request)
     {
-        bool nameExists = await _context.Styles.AnyAsync(x => x.Title.ToLower() == dto.Title.ToLower());
+        bool nameExists = await _context.Styles.AnyAsync(x => x.Title.ToLower() == request.Title.ToLower());
 
         if (nameExists)
         {
             throw new ValidationException("Title already exists");
         }
         
-        var style = _mapper.Map<Style>(dto);
+        var style = _mapper.Map<Style>(request);
         await _context.Styles.AddAsync(style);
         await _context.SaveChangesAsync();
         return _mapper.Map<StyleDto>(style);
     }
 
-    public async Task<StyleDto> UpdateAsync(Guid id, UpsertStyleDto dto)
+    public async Task<StyleDto> UpdateAsync(Guid id, UpsertStyleRequest request)
     {
 
         var existingStyle = await _context.Styles.FindAsync(id);
@@ -63,11 +63,11 @@ public class StyleService: IBaseService<StyleDto, UpsertStyleDto>
             throw new NotFoundException(nameof(Style), id);
         }
 
-        if (existingStyle.Title.ToLower() == dto.Title.ToLower())
+        if (existingStyle.Title.ToLower() == request.Title.ToLower())
         {
             throw new ValidationException("Title already exists");
         }
-        _mapper.Map(dto, existingStyle);
+        _mapper.Map(request, existingStyle);
         await _context.SaveChangesAsync();
         return _mapper.Map<StyleDto>(existingStyle);
     }

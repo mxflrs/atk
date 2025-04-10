@@ -9,6 +9,6 @@ public class MaterialsProfile : Profile
     public MaterialsProfile()
     {
         CreateMap<MaterialDto, Material>().ReverseMap();
-        CreateMap<UpsertMaterialDto, Material>().ReverseMap();
+        CreateMap<UpsertMaterialRequest, Material>().ReverseMap();
     }
 }
